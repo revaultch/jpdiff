@@ -35,11 +35,12 @@ public class JPDiffBuilderTest {
 
         final BufferedImage imgA = Imaging.getBufferedImage(new File("/Users/nelz/tmp/jpdiff/pic1a.png"));
         final BufferedImage imgB = Imaging.getBufferedImage(new File("/Users/nelz/tmp/jpdiff/pic1b.png"));
-        final Result result = new JPDiffBuilder().addComparisonImage(imgA).addComparisonImage(imgB).calculateResult();
+        final Result result = new JPDiffBuilder().addComparisonImage(imgA).addComparisonImage(imgB).setTolerancePerChannel(32).calculateResult();
 
         final File dest = File.createTempFile("nelz-" + System.currentTimeMillis() + "-",".png");
         Imaging.writeImage(result.getImage(), dest, ImageFormat.IMAGE_FORMAT_PNG, null);
 
+        System.out.println("Disagree: " + (1.0f - result.getAgreementPercent())*100);
         System.out.println("Results: " + dest.getAbsolutePath());
     }
 }
