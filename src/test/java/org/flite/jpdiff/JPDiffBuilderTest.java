@@ -1,11 +1,11 @@
 package org.flite.jpdiff;
 
-import org.apache.commons.imaging.ImageFormat;
-import org.apache.commons.imaging.Imaging;
-import org.testng.annotations.Test;
-
 import java.awt.image.BufferedImage;
 import java.io.File;
+
+import org.apache.commons.imaging.ImageFormats;
+import org.apache.commons.imaging.Imaging;
+import org.testng.annotations.Test;
 
 /**
  * Copyright (c) 2006-2013 Flite, Inc
@@ -33,12 +33,12 @@ public class JPDiffBuilderTest {
 //            }
 //        }
 
-        final BufferedImage imgA = Imaging.getBufferedImage(new File("/Users/nelz/tmp/jpdiff/pic1a.png"));
-        final BufferedImage imgB = Imaging.getBufferedImage(new File("/Users/nelz/tmp/jpdiff/pic1b.png"));
+        final BufferedImage imgA = Imaging.getBufferedImage(getClass().getResourceAsStream("/pic1a.png"));
+        final BufferedImage imgB = Imaging.getBufferedImage(getClass().getResourceAsStream("/pic1b.png"));
         final Result result = new JPDiffBuilder().addComparisonImage(imgA).addComparisonImage(imgB).setTolerancePerChannel(32).calculateResult();
 
         final File dest = File.createTempFile("nelz-" + System.currentTimeMillis() + "-",".png");
-        Imaging.writeImage(result.getImage(), dest, ImageFormat.IMAGE_FORMAT_PNG, null);
+        Imaging.writeImage(result.getImage(), dest, ImageFormats.PNG, null);
 
         System.out.println("Disagree: " + (1.0f - result.getAgreementPercent())*100);
         System.out.println("Results: " + dest.getAbsolutePath());
